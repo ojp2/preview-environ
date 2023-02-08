@@ -11,8 +11,8 @@ spec:
   destination:
     namespace: pe-poc-dev
     server: >-
-      https://016E903473BC201AFCDE2BCAAF7A858E.gr7.ap-south-1.eks.amazonaws.com
-  project: pe-poc-dev
+      https://kubernetes.default.svc
+  project: default
   source:
     helm:
       releaseName: pe-poc-dev
