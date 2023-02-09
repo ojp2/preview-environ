@@ -3,3 +3,4 @@
 environments:
 - name: preview-environment1
 - name: preview-environment2
+- name: preview-environment3
