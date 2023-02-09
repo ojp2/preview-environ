@@ -1,1 +1,4 @@
-Testing
+# This is an auto-generated file. Do not edit manually.
+
+applications:
+- name: aws-termination-handler
