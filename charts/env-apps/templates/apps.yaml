@@ -19,7 +19,7 @@ spec:
     helm:
       releaseName: {{ $app.name }}
       valueFiles:
-        - values.yaml
+        - {{ $app.name }}-values.yaml
       version: v3
     path: charts/hello-world
     repoURL: >-
