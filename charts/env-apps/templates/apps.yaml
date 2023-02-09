@@ -1,1 +1,45 @@
-Testing
+{{- range $apps, $app := .Values.applications }} 
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    argocd.argoproj.io/instance: applications-dev
+  name: {{ $app.name }}-dev
+  namespace: argocd
+spec:
+  destination:
+    namespace: {{ $app.name }}
+    server: >-
+      https://4FE820642ABFA95BCB6854C69A1AF5A2.gr7.us-gov-west-1.eks.amazonaws.com
+  project: {{ $app.name }}-dev
+  source:
+    {{- if ne $app.is_helm false }}
+    helm:
+      releaseName: {{ $app.name }}
+      valueFiles:
+        - values.yaml
+      version: v3
+    {{- end }}
+    path: apps/{{ $app.name }}/dev
+    repoURL: >-
+      https://github.com/department-of-veterans-affairs/vsp-infra-application-manifests.git
+    targetRevision: HEAD
+  syncPolicy:
+  {{- if ne $app.autosync_enabled false }}
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  {{- end }}
+    syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+{{- end }}
